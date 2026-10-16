@@ -5,16 +5,16 @@ services:
     image: postgres:15-alpine
     container_name: postgres
     environment:
-      POSTGRES_DB: fullstackdb
-      POSTGRES_USER: fsuser
-      POSTGRES_PASSWORD: fspass
+      POSTGRES_DB: basavabm
+      POSTGRES_USER: basavabm
+      POSTGRES_PASSWORD: basavabm
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks: [app-net]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fsuser -d fullstackdb"]
+      test: ["CMD-SHELL", "pg_isready -U basavabm -d basavabm"]
       interval: 5s
       timeout: 3s
       retries: 10

@@ -22,7 +22,7 @@ export default function ProductCard({ product, onDelete, isAdmin }: Props) {
       <div className="p-4">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-gray-900 text-lg">{product.name}</h3>
-          <span className="text-primary-600 font-bold">${product.price.toFixed(2)}</span>
+          <span className="text-primary-600 font-bold">{new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(product.price)}</span>
         </div>
         <p className="text-gray-500 text-sm mb-3 line-clamp-2">{product.description}</p>
         <div className="flex items-center justify-between">

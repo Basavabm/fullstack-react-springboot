@@ -5,9 +5,9 @@ spring:
   application:
     name: fullstack-backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/fullstackdb
-    username: fsuser
-    password: fspass
+    url: jdbc:postgresql://localhost:5432/basavabm
+    username: basavabm
+    password: basavabm
     hikari:
       maximum-pool-size: 10
   jpa:
