@@ -5,7 +5,7 @@ model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 diff = subprocess.run(
     ["git", "diff", f"origin/{base}...HEAD", "--unified=3"],
     capture_output=True, text=True, check=True
-).stdout[:80000]
+).stdout[:40000]
 
 if not diff.strip():
     open("ai-review.md", "w").write("## 🤖 AI Review\nNo changes to review.")
@@ -30,7 +30,7 @@ req = urllib.request.Request(
     data=json.dumps(body).encode(),
     headers={"Content-Type": "application/json", "x-goog-api-key": os.environ["GEMINI_API_KEY"]},
 )
-with urllib.request.urlopen(req, timeout=120) as r:
+with urllib.request.urlopen(req, timeout=180) as r:
     resp = json.load(r)
 
 text = resp["candidates"][0]["content"]["parts"][0]["text"]

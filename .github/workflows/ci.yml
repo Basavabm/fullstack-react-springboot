@@ -56,7 +56,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BASE_REF: ${{ github.base_ref }}
-          GEMINI_MODEL: gemini-flash-latest
+          GEMINI_MODEL: gemini-2.5-flash-lite
         run: python3 scripts/ai_review.py
       - name: Post PR comment
         if: always() && hashFiles('ai-review.md') != ''
