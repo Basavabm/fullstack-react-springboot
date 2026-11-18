@@ -68,6 +68,7 @@ jobs:
     needs: [secrets-scan, sast, dependency-scan, test]
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: [backend, frontend]
     steps:
