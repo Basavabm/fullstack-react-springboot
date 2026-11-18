@@ -63,3 +63,31 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file ai-review.md
+
+  build-scan:
+    needs: [secrets-scan, sast, dependency-scan, test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [backend, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ${{ matrix.service }}:${{ github.sha }} ./${{ matrix.service }}
+      - uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ matrix.service }}:${{ github.sha }}
+          severity: CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+        env:
+          TRIVY_OFFLINE_SCAN: "true"
+
+  gate:
+    needs: [secrets-scan, sast, dependency-scan, test, ai-review, build-scan]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if any required job failed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+      - run: echo "All gates passed"
