@@ -30,8 +30,17 @@ req = urllib.request.Request(
     data=json.dumps(body).encode(),
     headers={"Content-Type": "application/json", "x-goog-api-key": os.environ["GEMINI_API_KEY"]},
 )
-with urllib.request.urlopen(req, timeout=180) as r:
-    resp = json.load(r)
+resp = None
+for attempt in range(3):
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            resp = json.load(r)
+        break
+    except Exception as e:
+        print(f"Attempt {attempt+1} failed: {e}")
+if resp is None:
+    open("ai-review.md", "w").write("## 🤖 AI Review\nSkipped: the AI service did not respond. Scanner gates still apply.")
+    sys.exit(0)
 
 text = resp["candidates"][0]["content"]["parts"][0]["text"]
 data = json.loads(text)
