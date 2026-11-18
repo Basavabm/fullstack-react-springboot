@@ -43,3 +43,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "replace with your lint and test commands"
+
+  ai-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install anthropic
+      - name: Run AI review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BASE_REF: ${{ github.base_ref }}
+        run: python scripts/ai_review.py
+      - name: Post PR comment
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file ai-review.md
