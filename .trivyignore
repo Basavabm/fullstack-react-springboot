@@ -1,0 +1,4 @@
+# spring-webmvc: fix only exists in Spring 7 (Spring Boot 4 migration needed).
+# App does not use XsltView or SSE. Revisit when migrating to Spring Boot 4.
+CVE-2026-47884
+CVE-2026-47890

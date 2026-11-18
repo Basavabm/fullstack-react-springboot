@@ -13,7 +13,8 @@
     <version>1.0.0</version>
     <name>Full Stack Spring Boot Backend</name>
 
-    <properties><java.version>17</java.version></properties>
+    <properties>
+        <tomcat.version>10.1.62</tomcat.version><java.version>17</java.version></properties>
 
     <dependencies>
         <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-web</artifactId></dependency>
