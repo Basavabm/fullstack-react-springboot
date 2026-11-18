@@ -9,4 +9,6 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /build/target/fullstack-backend-1.0.0.jar app.jar
 EXPOSE 8080
+RUN adduser -D -u 1001 appuser
+USER appuser
 ENTRYPOINT ["java", "-jar", "app.jar"]
