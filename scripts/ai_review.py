@@ -39,7 +39,7 @@ for attempt in range(3):
     except Exception as e:
         print(f"Attempt {attempt+1} failed: {e}")
 if resp is None:
-    open("ai-review.md", "w").write("## 🤖 AI Review\nSkipped: the AI service did not respond. Scanner gates still apply.")
+    open("ai-review.md", "w").write("## 🤖 AI Review\nSkipped: the AI service failed (check model name and key). Scanner gates still apply.")
     sys.exit(0)
 
 text = resp["candidates"][0]["content"]["parts"][0]["text"]
